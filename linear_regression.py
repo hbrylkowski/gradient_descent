@@ -13,15 +13,22 @@ def normalize(set):
     return list(map(lambda p: (p[0] / len(set), p[1]/max_value[1]), set))
 
 values = []
-BATCH_SIZE = 60
-LEARNING_RATE = 1e-3
-ITERATIONS = 1500000
+BATCH_SIZE = 4
+LEARNING_RATE = 1e-2
+ITERATIONS = 50000
 for x in range(BATCH_SIZE):
-    values.append((x, math.sin(math.pi * x / BATCH_SIZE) + random.random() / 10))
+    values.append((x, math.cos(math.pi * x / BATCH_SIZE) + random.random()))
 
 values = normalize(values)
 
-polynomial_level = 3
+values = [
+    (0.1, 0.7),
+    (0.3, 0.65),
+    (0.5, 0.7),
+    (0.7, 0.65),
+]
+
+polynomial_level = len(values)
 coefficients = list(map(lambda _: 0, range(polynomial_level)))
 errors = []
 bar = progressbar.ProgressBar(max_value=ITERATIONS, redirect_stdout=True)
@@ -29,7 +36,7 @@ for i in range(ITERATIONS):
     bar.update(i)
     gradient = list(map(lambda _: 0, range(polynomial_level)))
     error = 0
-    for x in range(len(values) - 1):
+    for x in range(len(values)):
         y = 0
         for v in range(polynomial_level):
             y += coefficients[v] * (values[x][0] ** v)
