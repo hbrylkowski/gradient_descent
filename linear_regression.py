@@ -14,7 +14,7 @@ def normalize(set):
 
 values = []
 BATCH_SIZE = 4
-LEARNING_RATE = 1e-2
+LEARNING_RATE = 1e-3
 ITERATIONS = 50000
 for x in range(BATCH_SIZE):
     values.append((x, math.cos(math.pi * x / BATCH_SIZE) + random.random()))
@@ -52,7 +52,7 @@ for i in range(ITERATIONS):
         print(coefficients)
 
 calculated_line = []
-for x in range(BATCH_SIZE):
+for x in range(len(values)):
     y = 0
     for v in range(polynomial_level):
         y += coefficients[v] * (x ** v)
